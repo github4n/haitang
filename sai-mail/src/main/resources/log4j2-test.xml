@@ -3,7 +3,7 @@
 
     <Properties>
         <Property name="LOG_PREFIX">E:\\data\\home\\user00\\log\\sai-mail\\</Property>
-        <Property name="PATTERN_SUFFIX">-%d{yyyy-MM-dd-HH-mm}.%i.log.gz</Property>
+        <Property name="PATTERN_SUFFIX">-%d{yyyy-MM-dd-HH}.%i.log.gz</Property>
     </Properties>
 
     <Appenders>
@@ -22,7 +22,7 @@
                 <!--与%d{yyyy-MM-dd-HH-mm} 配置的是分钟，则每分钟触发-->
                 <!--与%d{yyyy-MM-dd-HH} 配置的是小时，则每小时触发。默认值是1-->
                 <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10KB"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
             <!-- 与%i有关。每rollover一次都会触发delete操作。默认值是7-->
             <!-- %d{yyyy-MM-dd-HH-mm}.%i， 相同分钟内累加。不同分钟重新初始化-->
