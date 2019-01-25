@@ -3,7 +3,7 @@
 
     <Properties>
         <Property name="LOG_PREFIX">E:\\data\\home\\user00\\log\\sai-mail\\</Property>
-        <Property name="PATTERN_SUFFIX">-%d{yyyy-MM-dd-HH}.%i.log.gz</Property>
+        <Property name="PATTERN_SUFFIX">-%d{yyyy-MM-dd-HH-mm}.%i.log.gz</Property>
     </Properties>
 
     <Appenders>
@@ -21,8 +21,8 @@
             <Policies>
                 <!--与%d{yyyy-MM-dd-HH-mm} 配置的是分钟，则每分钟触发-->
                 <!--与%d{yyyy-MM-dd-HH} 配置的是小时，则每小时触发。默认值是1-->
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="3" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="200KB"/>
             </Policies>
             <!-- 与%i有关。每rollover一次都会触发delete操作。默认值是7-->
             <!-- %d{yyyy-MM-dd-HH-mm}.%i， 相同分钟内累加。不同分钟重新初始化-->
@@ -34,7 +34,7 @@
                     <!--或regex="sai-mail-20.+.log.gz", 使用java的pattern来匹配-->
                     <IfFileName glob="sai-mail-20*.log.gz" />
                     <!--  如果名称匹配，再判断最近修改时间，再匹配再判断大小-->
-                    <IfLastModified age="3M">
+                    <IfLastModified age="10M">
                         <IfAny>
                             <IfAccumulatedFileSize exceeds="8 KB" />
                         </IfAny>
