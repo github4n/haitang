@@ -3,6 +3,7 @@ package com.bmn.server;
 import com.bmn.server.codec.Netty4ThriftDecoder;
 import com.bmn.server.codec.Netty4ThriftEncoder;
 import com.bmn.server.handler.HeartBeatHandler;
+import com.bmn.server.handler.TestOutboundHandler;
 import com.bmn.thrift.cs.BmnRequest;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -52,6 +53,7 @@ public class PythonThriftServer {
                     pipeline.addLast(new Netty4ThriftEncoder());
 
                     pipeline.addLast(new HeartBeatHandler());
+                    pipeline.addLast(new TestOutboundHandler());
                 }
             });
 
