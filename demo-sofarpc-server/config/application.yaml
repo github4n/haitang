@@ -1,0 +1,12 @@
+profile: dev
+
+
+online:
+    server:
+        version: DEV
+        versionPath:
+
+dev:
+    server:
+        version: DEV
+        versionPath:
