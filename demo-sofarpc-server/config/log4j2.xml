@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO" monitorInterval="60" shutdownHook="disable">
     <Properties>
-        <Property name="LOG_PREFIX">/data/home/user00/log/battle</Property>
+        <Property name="LOG_PREFIX">${sys:logging.path}/demo</Property>
         <Property name="PATTERN_SUFFIX">-%d{yyyy-MM-dd-HH}.%i.log.gz</Property>
     </Properties>
 
@@ -37,7 +37,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.playcrab" level="DEBUG"/>
+        <Logger name="com.bmn" level="DEBUG"/>
 
         <Root level="INFO">
             <AppenderRef ref="LOGASYNC"/>

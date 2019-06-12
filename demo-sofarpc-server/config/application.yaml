@@ -10,3 +10,27 @@ dev:
     server:
         version: DEV
         versionPath:
+
+    # sofa rpc
+    sofa:
+        port: 12200
+        protocol: bolt
+        zookeeperAddress: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+        # rpc业务线程池配置（默认配置）
+        pool:
+            core: 20
+            max: 200
+            aliveTime: 60000
+            queueSize: 0
+            preStart: false
+        # http服务配置
+        http:
+            port: 9999
+            protocal: rest
+            # 业务处理线程池
+            maxThreads: 1
+            # netty boss child group 线程池大小（共用同一个线程池）
+            ioThreads: 2
+        # 全局配置替换默认
+        rpc:
+            jvm.shutdown.hook: false
