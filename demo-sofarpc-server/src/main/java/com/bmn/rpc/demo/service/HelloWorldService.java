@@ -6,4 +6,5 @@ package com.bmn.rpc.demo.service;
  */
 public interface HelloWorldService {
 
+    public String hello(String msg);
 }

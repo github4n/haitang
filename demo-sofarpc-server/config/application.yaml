@@ -13,7 +13,7 @@ dev:
 
     # sofa rpc
     sofa:
-        port: 12200
+        port: 13200
         protocol: bolt
         zookeeperAddress: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
         # rpc业务线程池配置（默认配置）
@@ -25,7 +25,7 @@ dev:
             preStart: false
         # http服务配置
         http:
-            port: 9999
+            port: 9898
             protocal: rest
             # 业务处理线程池
             maxThreads: 1

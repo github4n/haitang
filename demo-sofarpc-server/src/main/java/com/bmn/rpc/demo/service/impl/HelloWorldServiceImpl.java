@@ -8,4 +8,8 @@ import com.bmn.rpc.demo.service.HelloWorldService;
  */
 public class HelloWorldServiceImpl implements HelloWorldService {
 
+    @Override
+    public String hello(String msg) {
+        return "world";
+    }
 }

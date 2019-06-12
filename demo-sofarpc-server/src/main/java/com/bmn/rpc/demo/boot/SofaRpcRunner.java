@@ -5,6 +5,7 @@ import com.alipay.sofa.rpc.common.RpcConstants;
 import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
+import com.bmn.bootstrap.annotation.Order;
 import com.bmn.bootstrap.config.ApplicationConfig;
 import com.bmn.bootstrap.context.BmnApplicationContext;
 import com.bmn.bootstrap.runner.ApplicationRunner;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author zhangyuqiang02@playcrab.com
  * @date 2019/6/12
  */
+@Order(1)
 public class SofaRpcRunner implements ApplicationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(SofaRpcRunner.class);
