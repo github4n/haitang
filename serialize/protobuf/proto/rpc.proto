@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package serialize.msg;
+option java_package = "com.bmn.haitang.demo.serialize.pb.msg";
+
+// 请求消息
+message HelloRequestMsg
+{
+    optional string type = 1;  //类型
+    optional bytes data = 2;  //数据
+}
+
+//响应消息
+message HelloResponseMsg
+{
+    optional bytes result = 1; //响应结果
+}
