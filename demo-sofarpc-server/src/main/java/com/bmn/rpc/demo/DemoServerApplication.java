@@ -8,9 +8,9 @@ import com.bmn.bootstrap.annotation.ComponentScan;
  * @date 2019/6/12
  */
 @ComponentScan("com.bmn.rpc.demo.boot")
-public class DemoApplication {
+public class DemoServerApplication {
 
     public static void main(String[] args) {
-        BmnApplication.run(DemoApplication.class, args);
+        BmnApplication.run(DemoServerApplication.class, args);
     }
 }

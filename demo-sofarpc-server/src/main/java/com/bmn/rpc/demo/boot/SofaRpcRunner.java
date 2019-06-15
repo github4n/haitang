@@ -1,6 +1,6 @@
 package com.bmn.rpc.demo.boot;
 
-import com.alipay.sofa.rpc.codec.CompressorFactory;
+import com.alipay.sofa.rpc.codec.SerializerFactory;
 import com.alipay.sofa.rpc.common.RpcConstants;
 import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
@@ -10,8 +10,10 @@ import com.bmn.bootstrap.config.ApplicationConfig;
 import com.bmn.bootstrap.context.BmnApplicationContext;
 import com.bmn.bootstrap.runner.ApplicationRunner;
 import com.bmn.bootstrap.util.StringUtils;
+import com.bmn.rpc.demo.filter.SnappyServerFilter;
 import com.bmn.rpc.demo.service.HelloWorldService;
 import com.bmn.rpc.demo.service.impl.HelloWorldServiceImpl;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,8 +65,14 @@ public class SofaRpcRunner implements ApplicationRunner {
             .setRegistry(registryConfig)
             .setServer(serverConfig); // 指定服务端
 
-        //提前初始化
-        CompressorFactory.getCompressor("snappy");
+        providerConfig.setFilterRef(Arrays.asList(new SnappyServerFilter()));
+
+        /**
+         * 预热加载序列化。避免请求请求超时
+         *
+         * 默认是首次数据序列化时才加载。加载会很长时间。
+         */
+        SerializerFactory.getSerializer(RpcConstants.SERIALIZE_PROTOBUF);
 
         providerConfig.export(); // 发布服务
 
