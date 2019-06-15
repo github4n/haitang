@@ -1,0 +1,15 @@
+server:
+  port: 9595
+spring:
+  mvc:
+    async:
+      # 0不超时。debug时使用
+      request-timeout: 5000
+rpc:
+  zookeeper:
+    address: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+  request:
+    timeout: 2000
+  connection:
+    timeout: 3000
+    size: 10
