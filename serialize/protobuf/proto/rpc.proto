@@ -4,14 +4,18 @@ package serialize.msg;
 option java_package = "com.bmn.haitang.demo.serialize.pb.msg";
 
 // 请求消息
+// 需要压缩时使用compressData发送数据，data清空
 message HelloRequestMsg
 {
     optional string type = 1;  //类型
-    optional bytes data = 2;  //数据
+    optional string data = 2;  //原始数据
+    optional bytes compressData = 3;  //压缩数据
 }
 
 //响应消息
+//需要压缩时使用compressResult响应结果，result清空
 message HelloResponseMsg
 {
-    optional bytes result = 1; //响应结果
+    optional string result = 1;  //原始数据
+    optional bytes compressResult = 2; //压缩数据
 }

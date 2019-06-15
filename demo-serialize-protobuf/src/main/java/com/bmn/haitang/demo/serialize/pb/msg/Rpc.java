@@ -46,24 +46,51 @@ public final class Rpc {
 
     /**
      * <pre>
-     *数据
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes data = 2;</code>
+     * <code>optional string data = 2;</code>
      */
     boolean hasData();
     /**
      * <pre>
-     *数据
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes data = 2;</code>
+     * <code>optional string data = 2;</code>
      */
-    com.google.protobuf.ByteString getData();
+    String getData();
+    /**
+     * <pre>
+     *原始数据
+     * </pre>
+     *
+     * <code>optional string data = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getDataBytes();
+
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressData = 3;</code>
+     */
+    boolean hasCompressData();
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressData = 3;</code>
+     */
+    com.google.protobuf.ByteString getCompressData();
   }
   /**
    * <pre>
    * 请求消息
+   * 需要压缩时使用compressData发送数据，data清空
    * </pre>
    *
    * Protobuf type {@code serialize.msg.HelloRequestMsg}
@@ -78,7 +105,8 @@ public final class Rpc {
     }
     private HelloRequestMsg() {
       type_ = "";
-      data_ = com.google.protobuf.ByteString.EMPTY;
+      data_ = "";
+      compressData_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @Override
@@ -116,8 +144,14 @@ public final class Rpc {
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              data_ = input.readBytes();
+              data_ = bs;
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              compressData_ = input.readBytes();
               break;
             }
           }
@@ -200,26 +234,80 @@ public final class Rpc {
     }
 
     public static final int DATA_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString data_;
+    private volatile Object data_;
     /**
      * <pre>
-     *数据
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes data = 2;</code>
+     * <code>optional string data = 2;</code>
      */
     public boolean hasData() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <pre>
-     *数据
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes data = 2;</code>
+     * <code>optional string data = 2;</code>
      */
-    public com.google.protobuf.ByteString getData() {
-      return data_;
+    public String getData() {
+      Object ref = data_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          data_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *原始数据
+     * </pre>
+     *
+     * <code>optional string data = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDataBytes() {
+      Object ref = data_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        data_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPRESSDATA_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString compressData_;
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressData = 3;</code>
+     */
+    public boolean hasCompressData() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressData = 3;</code>
+     */
+    public com.google.protobuf.ByteString getCompressData() {
+      return compressData_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -238,7 +326,10 @@ public final class Rpc {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, data_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, data_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, compressData_);
       }
       unknownFields.writeTo(output);
     }
@@ -252,8 +343,11 @@ public final class Rpc {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, data_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, data_);
+          .computeBytesSize(3, compressData_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -282,6 +376,11 @@ public final class Rpc {
         result = result && getData()
             .equals(other.getData());
       }
+      result = result && (hasCompressData() == other.hasCompressData());
+      if (hasCompressData()) {
+        result = result && getCompressData()
+            .equals(other.getCompressData());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -300,6 +399,10 @@ public final class Rpc {
       if (hasData()) {
         hash = (37 * hash) + DATA_FIELD_NUMBER;
         hash = (53 * hash) + getData().hashCode();
+      }
+      if (hasCompressData()) {
+        hash = (37 * hash) + COMPRESSDATA_FIELD_NUMBER;
+        hash = (53 * hash) + getCompressData().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -397,6 +500,7 @@ public final class Rpc {
     /**
      * <pre>
      * 请求消息
+     * 需要压缩时使用compressData发送数据，data清空
      * </pre>
      *
      * Protobuf type {@code serialize.msg.HelloRequestMsg}
@@ -436,8 +540,10 @@ public final class Rpc {
         super.clear();
         type_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        data_ = com.google.protobuf.ByteString.EMPTY;
+        data_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        compressData_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -470,6 +576,10 @@ public final class Rpc {
           to_bitField0_ |= 0x00000002;
         }
         result.data_ = data_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.compressData_ = compressData_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -518,7 +628,12 @@ public final class Rpc {
           onChanged();
         }
         if (other.hasData()) {
-          setData(other.getData());
+          bitField0_ |= 0x00000002;
+          data_ = other.data_;
+          onChanged();
+        }
+        if (other.hasCompressData()) {
+          setCompressData(other.getCompressData());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -648,35 +763,67 @@ public final class Rpc {
         return this;
       }
 
-      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      private Object data_ = "";
       /**
        * <pre>
-       *数据
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes data = 2;</code>
+       * <code>optional string data = 2;</code>
        */
       public boolean hasData() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <pre>
-       *数据
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes data = 2;</code>
+       * <code>optional string data = 2;</code>
        */
-      public com.google.protobuf.ByteString getData() {
-        return data_;
+      public String getData() {
+        Object ref = data_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            data_ = s;
+          }
+          return s;
+        } else {
+          return (String) ref;
+        }
       }
       /**
        * <pre>
-       *数据
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes data = 2;</code>
+       * <code>optional string data = 2;</code>
        */
-      public Builder setData(com.google.protobuf.ByteString value) {
+      public com.google.protobuf.ByteString
+          getDataBytes() {
+        Object ref = data_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          data_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *原始数据
+       * </pre>
+       *
+       * <code>optional string data = 2;</code>
+       */
+      public Builder setData(
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -687,14 +834,82 @@ public final class Rpc {
       }
       /**
        * <pre>
-       *数据
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes data = 2;</code>
+       * <code>optional string data = 2;</code>
        */
       public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000002);
         data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *原始数据
+       * </pre>
+       *
+       * <code>optional string data = 2;</code>
+       */
+      public Builder setDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        data_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString compressData_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressData = 3;</code>
+       */
+      public boolean hasCompressData() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressData = 3;</code>
+       */
+      public com.google.protobuf.ByteString getCompressData() {
+        return compressData_;
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressData = 3;</code>
+       */
+      public Builder setCompressData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        compressData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressData = 3;</code>
+       */
+      public Builder clearCompressData() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        compressData_ = getDefaultInstance().getCompressData();
         onChanged();
         return this;
       }
@@ -753,24 +968,51 @@ public final class Rpc {
 
     /**
      * <pre>
-     *响应结果
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes result = 1;</code>
+     * <code>optional string result = 1;</code>
      */
     boolean hasResult();
     /**
      * <pre>
-     *响应结果
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes result = 1;</code>
+     * <code>optional string result = 1;</code>
      */
-    com.google.protobuf.ByteString getResult();
+    String getResult();
+    /**
+     * <pre>
+     *原始数据
+     * </pre>
+     *
+     * <code>optional string result = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getResultBytes();
+
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressResult = 2;</code>
+     */
+    boolean hasCompressResult();
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressResult = 2;</code>
+     */
+    com.google.protobuf.ByteString getCompressResult();
   }
   /**
    * <pre>
    *响应消息
+   *需要压缩时使用compressResult响应结果，result清空
    * </pre>
    *
    * Protobuf type {@code serialize.msg.HelloResponseMsg}
@@ -784,7 +1026,8 @@ public final class Rpc {
       super(builder);
     }
     private HelloResponseMsg() {
-      result_ = com.google.protobuf.ByteString.EMPTY;
+      result_ = "";
+      compressResult_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @Override
@@ -816,8 +1059,14 @@ public final class Rpc {
               break;
             }
             case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              result_ = input.readBytes();
+              result_ = bs;
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              compressResult_ = input.readBytes();
               break;
             }
           }
@@ -846,26 +1095,80 @@ public final class Rpc {
 
     private int bitField0_;
     public static final int RESULT_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString result_;
+    private volatile Object result_;
     /**
      * <pre>
-     *响应结果
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes result = 1;</code>
+     * <code>optional string result = 1;</code>
      */
     public boolean hasResult() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <pre>
-     *响应结果
+     *原始数据
      * </pre>
      *
-     * <code>optional bytes result = 1;</code>
+     * <code>optional string result = 1;</code>
      */
-    public com.google.protobuf.ByteString getResult() {
-      return result_;
+    public String getResult() {
+      Object ref = result_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          result_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *原始数据
+     * </pre>
+     *
+     * <code>optional string result = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getResultBytes() {
+      Object ref = result_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        result_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPRESSRESULT_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString compressResult_;
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressResult = 2;</code>
+     */
+    public boolean hasCompressResult() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <pre>
+     *压缩数据
+     * </pre>
+     *
+     * <code>optional bytes compressResult = 2;</code>
+     */
+    public com.google.protobuf.ByteString getCompressResult() {
+      return compressResult_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -881,7 +1184,10 @@ public final class Rpc {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, result_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, compressResult_);
       }
       unknownFields.writeTo(output);
     }
@@ -892,8 +1198,11 @@ public final class Rpc {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, result_);
+          .computeBytesSize(2, compressResult_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -917,6 +1226,11 @@ public final class Rpc {
         result = result && getResult()
             .equals(other.getResult());
       }
+      result = result && (hasCompressResult() == other.hasCompressResult());
+      if (hasCompressResult()) {
+        result = result && getCompressResult()
+            .equals(other.getCompressResult());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -931,6 +1245,10 @@ public final class Rpc {
       if (hasResult()) {
         hash = (37 * hash) + RESULT_FIELD_NUMBER;
         hash = (53 * hash) + getResult().hashCode();
+      }
+      if (hasCompressResult()) {
+        hash = (37 * hash) + COMPRESSRESULT_FIELD_NUMBER;
+        hash = (53 * hash) + getCompressResult().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1028,6 +1346,7 @@ public final class Rpc {
     /**
      * <pre>
      *响应消息
+     *需要压缩时使用compressResult响应结果，result清空
      * </pre>
      *
      * Protobuf type {@code serialize.msg.HelloResponseMsg}
@@ -1065,8 +1384,10 @@ public final class Rpc {
       }
       public Builder clear() {
         super.clear();
-        result_ = com.google.protobuf.ByteString.EMPTY;
+        result_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        compressResult_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1095,6 +1416,10 @@ public final class Rpc {
           to_bitField0_ |= 0x00000001;
         }
         result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.compressResult_ = compressResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1138,7 +1463,12 @@ public final class Rpc {
       public Builder mergeFrom(HelloResponseMsg other) {
         if (other == HelloResponseMsg.getDefaultInstance()) return this;
         if (other.hasResult()) {
-          setResult(other.getResult());
+          bitField0_ |= 0x00000001;
+          result_ = other.result_;
+          onChanged();
+        }
+        if (other.hasCompressResult()) {
+          setCompressResult(other.getCompressResult());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1168,35 +1498,67 @@ public final class Rpc {
       }
       private int bitField0_;
 
-      private com.google.protobuf.ByteString result_ = com.google.protobuf.ByteString.EMPTY;
+      private Object result_ = "";
       /**
        * <pre>
-       *响应结果
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes result = 1;</code>
+       * <code>optional string result = 1;</code>
        */
       public boolean hasResult() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <pre>
-       *响应结果
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes result = 1;</code>
+       * <code>optional string result = 1;</code>
        */
-      public com.google.protobuf.ByteString getResult() {
-        return result_;
+      public String getResult() {
+        Object ref = result_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            result_ = s;
+          }
+          return s;
+        } else {
+          return (String) ref;
+        }
       }
       /**
        * <pre>
-       *响应结果
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes result = 1;</code>
+       * <code>optional string result = 1;</code>
        */
-      public Builder setResult(com.google.protobuf.ByteString value) {
+      public com.google.protobuf.ByteString
+          getResultBytes() {
+        Object ref = result_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          result_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *原始数据
+       * </pre>
+       *
+       * <code>optional string result = 1;</code>
+       */
+      public Builder setResult(
+          String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -1207,14 +1569,82 @@ public final class Rpc {
       }
       /**
        * <pre>
-       *响应结果
+       *原始数据
        * </pre>
        *
-       * <code>optional bytes result = 1;</code>
+       * <code>optional string result = 1;</code>
        */
       public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000001);
         result_ = getDefaultInstance().getResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *原始数据
+       * </pre>
+       *
+       * <code>optional string result = 1;</code>
+       */
+      public Builder setResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString compressResult_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressResult = 2;</code>
+       */
+      public boolean hasCompressResult() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressResult = 2;</code>
+       */
+      public com.google.protobuf.ByteString getCompressResult() {
+        return compressResult_;
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressResult = 2;</code>
+       */
+      public Builder setCompressResult(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        compressResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *压缩数据
+       * </pre>
+       *
+       * <code>optional bytes compressResult = 2;</code>
+       */
+      public Builder clearCompressResult() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        compressResult_ = getDefaultInstance().getCompressResult();
         onChanged();
         return this;
       }
@@ -1286,10 +1716,11 @@ public final class Rpc {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\trpc.proto\022\rserialize.msg\"-\n\017HelloReque" +
-      "stMsg\022\014\n\004type\030\001 \001(\t\022\014\n\004data\030\002 \001(\014\"\"\n\020Hel" +
-      "loResponseMsg\022\016\n\006result\030\001 \001(\014B\'\n%com.bmn" +
-      ".haitang.demo.serialize.pb.msg"
+      "\n\trpc.proto\022\rserialize.msg\"C\n\017HelloReque" +
+      "stMsg\022\014\n\004type\030\001 \001(\t\022\014\n\004data\030\002 \001(\t\022\024\n\014com" +
+      "pressData\030\003 \001(\014\":\n\020HelloResponseMsg\022\016\n\006r" +
+      "esult\030\001 \001(\t\022\026\n\016compressResult\030\002 \001(\014B\'\n%c" +
+      "om.bmn.haitang.demo.serialize.pb.msg"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1308,13 +1739,13 @@ public final class Rpc {
     internal_static_serialize_msg_HelloRequestMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serialize_msg_HelloRequestMsg_descriptor,
-        new String[] { "Type", "Data", });
+        new String[] { "Type", "Data", "CompressData", });
     internal_static_serialize_msg_HelloResponseMsg_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_serialize_msg_HelloResponseMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serialize_msg_HelloResponseMsg_descriptor,
-        new String[] { "Result", });
+        new String[] { "Result", "CompressResult", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
