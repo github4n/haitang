@@ -1,0 +1,11 @@
+server:
+  port: 9595
+
+leting:
+  api:
+    appId: 24f21c736ecc352c6f90ff541f025fe7
+    secret: 71027f631c1fc50f517346790f251448
+    baseUrl: https://app.leting.io
+    tokenPath: auth
+    searchPath: query
+    playPath: play/url
