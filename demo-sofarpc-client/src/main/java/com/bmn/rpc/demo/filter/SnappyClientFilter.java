@@ -3,6 +3,7 @@ package com.bmn.rpc.demo.filter;
 
 import com.alipay.sofa.rpc.codec.Compressor;
 import com.alipay.sofa.rpc.codec.CompressorFactory;
+import com.alipay.sofa.rpc.common.RpcConstants;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import com.alipay.sofa.rpc.core.exception.RpcErrorType;
 import com.alipay.sofa.rpc.core.exception.SofaRpcException;
@@ -84,7 +85,13 @@ public class SnappyClientFilter extends Filter {
             }
         }
 
-        return invoker.invoke(request);
+        SofaResponse response = invoker.invoke(request);
+        // 处理同步请求
+        if(RpcConstants.INVOKER_TYPE_SYNC.equals(request.getInvokeType())) {
+            onAsyncResponse((ConsumerConfig)invoker.getConfig(), request, response, null);
+        }
+
+        return response;
     }
 
     /**

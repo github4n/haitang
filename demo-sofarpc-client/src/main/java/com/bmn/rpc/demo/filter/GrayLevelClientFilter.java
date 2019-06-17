@@ -21,13 +21,11 @@ public class GrayLevelClientFilter extends Filter {
     // 日志打印 sofa rpc 框架日志中
     private static final Logger logger = LoggerFactory.getLogger(GrayLevelClientFilter.class);
 
-    public static final String SNAPPY_NAME = "snappy";
-
     /**
      * 可以自定义配置文件，配置是否开启灰度
      */
     public boolean needGray() {
-        return true;
+        return false;
     }
 
     /**

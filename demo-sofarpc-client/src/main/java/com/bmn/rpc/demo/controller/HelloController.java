@@ -20,11 +20,43 @@ public class HelloController {
     private HelloClientService battleClientService;
 
     @GetMapping("/hello")
-    public DeferredResult<String> getSkillInfo() {
+    public DeferredResult<String> hello() {
         DeferredResult<String> result = new DeferredResult<>();
 
         try {
             String r = battleClientService.callHello();
+            result.setResult(r);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @GetMapping("/hello/future")
+    public DeferredResult<String> helloFuture() {
+        DeferredResult<String> result = new DeferredResult<>();
+
+        try {
+            String r = battleClientService.callHelloFuture();
+            result.setResult(r);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @GetMapping("/hello/callback")
+    public DeferredResult<String> helloCallback() {
+        DeferredResult<String> result = new DeferredResult<>();
+
+        try {
+            String r = battleClientService.callHelloCallback();
             result.setResult(r);
         } catch (ExecutionException e) {
             e.printStackTrace();

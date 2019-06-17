@@ -34,6 +34,33 @@ public class HelloClientServiceImpl implements HelloClientService {
     public String callHello() throws ExecutionException, InterruptedException {
 
         long begin = Instant.now().toEpochMilli();
+        try {
+            HelloRequestMsg.Builder builder = HelloRequestMsg.newBuilder();
+            builder.setType(TYPE);
+            builder.setData(DATA);
+
+            logger.info("rpc lua battle call start...");
+
+            HelloResponseMsg msg = demoRpcClient.getService().hello(builder.build());
+
+            String result = msg.getResult();
+
+            long end = Instant.now().toEpochMilli();
+
+            logger.info("rpc lua battle call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+
+        } catch (Exception e) {
+            logger.error("eeeror", e);
+
+            return "false";
+        }
+
+        return "true";
+    }
+
+    @Override
+    public String callHelloFuture() throws ExecutionException, InterruptedException {
+        long begin = Instant.now().toEpochMilli();
 
         try {
 
@@ -41,10 +68,12 @@ public class HelloClientServiceImpl implements HelloClientService {
             builder.setType(TYPE);
             builder.setData(DATA);
 
-            demoRpcClient.getService().hello(builder.build());
+            demoRpcClient.getService().helloFuture(builder.build());
         } catch (Exception e) {
             TracerUtils.asyncCallErrorClearTracer(e);
             logger.error("eeeror", e);
+
+            return "false";
         }
 
         logger.info("rpc lua battle call start...");
@@ -58,18 +87,6 @@ public class HelloClientServiceImpl implements HelloClientService {
 
         long end = Instant.now().toEpochMilli();
         logger.info("rpc lua battle call finish, client_elapse_time: {}, result:{}", (end - begin), result);
-
-        return "true";
-    }
-
-    @Override
-    public String callHelloFuture() throws ExecutionException, InterruptedException {
-        try {
-//            helloWorldService.helloFuture(TYPE, DATA);
-        } catch (Exception e) {
-            TracerUtils.asyncCallErrorClearTracer(e);
-            logger.error("eeeror", e);
-        }
 
         return "true";
     }

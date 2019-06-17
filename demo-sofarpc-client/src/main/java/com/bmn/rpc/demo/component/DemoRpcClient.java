@@ -4,6 +4,7 @@ import com.alipay.sofa.rpc.codec.SerializerFactory;
 import com.alipay.sofa.rpc.common.RpcConstants;
 import com.alipay.sofa.rpc.config.ApplicationConfig;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
+import com.alipay.sofa.rpc.config.MethodConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
 import com.bmn.rpc.demo.filter.GrayLevelClientFilter;
 import com.bmn.rpc.demo.filter.SnappyClientFilter;
@@ -52,10 +53,19 @@ public class DemoRpcClient implements InitializingBean {
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setAppName("spurs");
 
+        MethodConfig methodConfig = new MethodConfig();
+        methodConfig.setName("helloCallback");
+        methodConfig.setInvokeType(RpcConstants.INVOKER_TYPE_CALLBACK);
+
+        MethodConfig helloMethodConfig = new MethodConfig();
+        helloMethodConfig.setName("hello");
+        helloMethodConfig.setInvokeType(RpcConstants.INVOKER_TYPE_SYNC);
+
         // rpc 接口调用配置
         ConsumerConfig<HelloWorldService> consumerConfig = new ConsumerConfig<HelloWorldService>()
             .setInterfaceId(HelloWorldService.class.getName())
             .setRegistry(registryConfig)
+            .setMethods(Arrays.asList(methodConfig, helloMethodConfig))
             .setApplication(applicationConfig)
             .setProtocol(RpcConstants.PROTOCOL_TYPE_BOLT)
             .setInvokeType(RpcConstants.INVOKER_TYPE_FUTURE)
