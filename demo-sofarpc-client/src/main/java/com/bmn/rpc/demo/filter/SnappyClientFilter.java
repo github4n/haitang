@@ -58,7 +58,7 @@ public class SnappyClientFilter extends Filter {
             //通知服务端本次请求启动压缩
             request.addRequestProp("compress", 0b1);
 
-            logger.debug("rpc battle call request compress: true");
+            logger.debug("rpc call request compress: true");
 
             Object[] args = request.getMethodArgs();
             if (args != null && args.length == 1) {
@@ -102,7 +102,7 @@ public class SnappyClientFilter extends Filter {
         // 如：timeout 异常后response为null
         if (response != null && request.getRequestProp("compress") != null) {
 
-            logger.debug("rpc battle call response compress: true");
+            logger.debug("rpc call response compress: true");
 
             Object resp = response.getAppResponse();
             Compressor compressor = CompressorFactory.getCompressor(SNAPPY_NAME);

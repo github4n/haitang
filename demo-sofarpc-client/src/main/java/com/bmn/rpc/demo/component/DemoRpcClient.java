@@ -5,6 +5,7 @@ import com.alipay.sofa.rpc.common.RpcConstants;
 import com.alipay.sofa.rpc.config.ApplicationConfig;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
+import com.bmn.rpc.demo.filter.GrayLevelClientFilter;
 import com.bmn.rpc.demo.filter.SnappyClientFilter;
 import com.bmn.rpc.demo.service.HelloWorldService;
 import java.util.Arrays;
@@ -64,7 +65,7 @@ public class DemoRpcClient implements InitializingBean {
             .setConnectTimeout(connectionTimeout)
             .setTimeout(requestTimeout);
 
-        consumerConfig.setFilterRef(Arrays.asList(new SnappyClientFilter()));
+        consumerConfig.setFilterRef(Arrays.asList(new GrayLevelClientFilter(), new SnappyClientFilter()));
 
         /**
          * 预热加载序列化。避免请求请求超时

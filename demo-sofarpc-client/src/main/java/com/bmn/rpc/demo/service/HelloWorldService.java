@@ -16,6 +16,13 @@ public interface HelloWorldService {
     public HelloResponseMsg hello(HelloRequestMsg msg);
 
     /**
+     * 灰度调用
+     * @param msg
+     * @return
+     */
+    public HelloResponseMsg helloGray(HelloRequestMsg msg);
+
+    /**
      * future方式调用
      * @return
      */

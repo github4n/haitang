@@ -21,6 +21,12 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     }
 
     @Override
+    public HelloResponseMsg helloGray(HelloRequestMsg msg) {
+        logger.debug("receive hello gray request");
+        return HelloResponseMsg.newBuilder().setResult("world_gray").build();
+    }
+
+    @Override
     public HelloResponseMsg helloFuture(HelloRequestMsg msg) {
         logger.debug("receive hello future request");
         return HelloResponseMsg.newBuilder().setResult("world_future").build();
