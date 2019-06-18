@@ -1,6 +1,10 @@
 package com.bmn.rpc.demo.service.impl;
 
 import com.alipay.sofa.rpc.api.future.SofaResponseFuture;
+import com.alipay.sofa.rpc.context.RpcInvokeContext;
+import com.alipay.sofa.rpc.core.exception.SofaRpcException;
+import com.alipay.sofa.rpc.core.invoke.SofaResponseCallback;
+import com.alipay.sofa.rpc.core.request.RequestBase;
 import com.alipay.sofa.rpc.message.bolt.BoltResponseFuture;
 import com.bmn.haitang.demo.serialize.pb.msg.Rpc.HelloRequestMsg;
 import com.bmn.haitang.demo.serialize.pb.msg.Rpc.HelloResponseMsg;
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
  * @author zhangyuqiang02@playcrab.com
@@ -39,7 +44,7 @@ public class HelloClientServiceImpl implements HelloClientService {
             builder.setType(TYPE);
             builder.setData(DATA);
 
-            logger.info("rpc lua battle call start...");
+            logger.info("rpc call start...");
 
             HelloResponseMsg msg = demoRpcClient.getService().hello(builder.build());
 
@@ -47,10 +52,10 @@ public class HelloClientServiceImpl implements HelloClientService {
 
             long end = Instant.now().toEpochMilli();
 
-            logger.info("rpc lua battle call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+            logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
 
         } catch (Exception e) {
-            logger.error("eeeror", e);
+            logger.error("hello error", e);
 
             return "false";
         }
@@ -71,12 +76,12 @@ public class HelloClientServiceImpl implements HelloClientService {
             demoRpcClient.getService().helloFuture(builder.build());
         } catch (Exception e) {
             TracerUtils.asyncCallErrorClearTracer(e);
-            logger.error("eeeror", e);
+            logger.error("hello callback future", e);
 
             return "false";
         }
 
-        logger.info("rpc lua battle call start...");
+        logger.info("rpc call start...");
 
         BoltResponseFuture future = (BoltResponseFuture) SofaResponseFuture.getFuture();
         Object ret = future.get();
@@ -86,19 +91,59 @@ public class HelloClientServiceImpl implements HelloClientService {
         String result = msg.getResult();
 
         long end = Instant.now().toEpochMilli();
-        logger.info("rpc lua battle call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+        logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
 
         return "true";
     }
 
     @Override
-    public String callHelloCallback() throws ExecutionException, InterruptedException {
+    public String callHelloCallback(DeferredResult<String> deferred)  {
+        long begin = Instant.now().toEpochMilli();
+
         try {
-//            helloWorldService.helloCallback(TYPE, DATA);
+
+            RpcInvokeContext.getContext().setResponseCallback(new SofaResponseCallback() {
+
+                @Override
+                public void onAppResponse(Object appResponse, String methodName,
+                    RequestBase request) {
+
+                    HelloResponseMsg msg = (HelloResponseMsg) appResponse;
+
+                    String result = msg.getResult();
+
+                    long end = Instant.now().toEpochMilli();
+                    logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+
+                    deferred.setResult(result);
+                }
+
+                @Override
+                public void onAppException(Throwable throwable, String methodName,
+                    RequestBase request) {
+
+                    deferred.setErrorResult("remote false");
+                }
+
+                @Override
+                public void onSofaException(SofaRpcException sofaException, String methodName,
+                    RequestBase request) {
+                    deferred.setErrorResult("local false");
+                }
+            });
+
+            HelloRequestMsg.Builder builder = HelloRequestMsg.newBuilder();
+            builder.setType(TYPE);
+            builder.setData(DATA);
+            demoRpcClient.getService().helloCallback(builder.build());
         } catch (Exception e) {
             TracerUtils.asyncCallErrorClearTracer(e);
-            logger.error("eeeror", e);
+            logger.error("hello callback error", e);
+
+            return "false";
         }
+
+        logger.info("rpc call start...");
 
         return "true";
     }

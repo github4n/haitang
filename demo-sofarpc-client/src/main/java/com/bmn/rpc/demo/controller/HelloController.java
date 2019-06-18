@@ -56,8 +56,7 @@ public class HelloController {
         DeferredResult<String> result = new DeferredResult<>();
 
         try {
-            String r = battleClientService.callHelloCallback();
-            result.setResult(r);
+            battleClientService.callHelloCallback(result);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
