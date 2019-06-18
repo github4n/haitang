@@ -5,7 +5,6 @@ package com.bmn.haitang.demo.pig.service;
  */
 public interface LoginService {
 
-
-    void login(long loginId, String loginname, String password, String authcode);
+    void login(String loginname, String password);
 
 }

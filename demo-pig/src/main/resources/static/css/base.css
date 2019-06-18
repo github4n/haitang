@@ -52,7 +52,7 @@ img {
     position: absolute;
     right: 0;
     top: 10px;
-    background: url(/images/login/l-icon.png) no-repeat;
+    background: url(images/login/l-icon.png) no-repeat;
 }
 
 .q-link {
@@ -66,7 +66,7 @@ img {
     width: 18px;
     height: 14px;
     margin: 0 5px;
-    background: url(/images/login/q-icon.png) no-repeat;
+    background: url(images/login/q-icon.png) no-repeat;
     overflow: hidden;
     vertical-align: middle;
 }
@@ -178,7 +178,7 @@ img {
     width: 16px;
     height: 16px;
     overflow: hidden;
-    background: url(/images/login/pwd-icons-new.png) -104px -49px no-repeat;
+    background: url(images/login/pwd-icons-new.png) -104px -49px no-repeat;
 }
 
 .hide {
@@ -240,7 +240,7 @@ form {
     top: 12px;
     width: 14px;
     height: 14px;
-    background: url(/images/login/pwd-icons-new.png) -25px -143px no-repeat;
+    background: url(images/login/pwd-icons-new.png) -25px -143px no-repeat;
     cursor: pointer;
     display: none;
 }
@@ -253,7 +253,7 @@ form {
     width: 38px;
     height: 38px;
     border-right: 1px solid #bdbdbd;
-    background: url(/images/login/pwd-icons-new.png) no-repeat;
+    background: url(images/login/pwd-icons-new.png) no-repeat;
 }
 
 
@@ -274,7 +274,7 @@ form {
     height: 26px;
     line-height: 28px;
     overflow: hidden;
-    background: url(/images/login/capslock.png) no-repeat;
+    background: url(images/login/capslock.png) no-repeat;
 }
 .form .item-fore1 .capslock b, .form .item-fore2 .capslock b {
     display: block;
@@ -284,7 +284,7 @@ form {
     width: 10px;
     height: 14px;
     overflow: hidden;
-    background: url(/images/login/pwd-icons-new.png) -104px -133px no-repeat;
+    background: url(images/login/pwd-icons-new.png) -104px -133px no-repeat;
 }
 .form .item-error {
     border: 1px solid #e4393c;
@@ -470,7 +470,7 @@ form {
     margin-bottom: 25px;
     width: 50px;
     height: 50px;
-    background: url(/images/login/qr-error-icon.png) no-repeat;
+    background: url(images/login/qr-error-icon.png) no-repeat;
 }
 .ml10 {
     margin-left: 10px;
@@ -489,7 +489,7 @@ form {
     top: -2px;
     width: 141px;
     height: 168px;
-    background: url(/images/login/phone-orange.png) no-repeat;
+    background: url(images/login/phone-orange.png) no-repeat;
     z-index: 99;
 }
 .login-form .qrcode-login .qrcode-succ {
@@ -514,7 +514,7 @@ form {
     width: 71px;
     height: 71px;
     margin: 0 auto;
-    background: url(/images/login/qrcode-succ-2016.png) no-repeat;
+    background: url(images/login/qrcode-succ-2016.png) no-repeat;
 }
 .icon-box .succ-icon {
     background-position: 0 0;
@@ -614,7 +614,7 @@ ol, ul {
     width: 25px;
     height: 25px;
     display: block;
-    background: url(/images/login/qr-coagent.png) no-repeat;
+    background: url(images/login/qr-coagent.png) no-repeat;
     margin: 0 auto;
     position: absolute;
     left: 0;
@@ -633,7 +633,7 @@ em {
     width: 25px;
     height: 25px;
     display: block;
-    background: url(/images/login/qr-coagent.png) no-repeat;
+    background: url(images/login/qr-coagent.png) no-repeat;
     margin: 0 auto;
     position: absolute;
     left: 0;
@@ -653,7 +653,7 @@ em {
     width: 19px;
     height: 18px;
     display: block;
-    background: url(/images/login/QQ-weixin.png) no-repeat;
+    background: url(images/login/QQ-weixin.png) no-repeat;
     margin: 0 auto;
     position: absolute;
     float: left;
@@ -671,7 +671,7 @@ em {
     width: 19px;
     height: 18px;
     display: block;
-    background: url(/images/login/QQ-weixin.png) no-repeat;
+    background: url(images/login/QQ-weixin.png) no-repeat;
     margin: 0 auto;
     position: absolute;
     float: left;
@@ -693,7 +693,7 @@ em {
     width: 16px;
     height: 16px;
     overflow: hidden;
-    background: url(/images/login/pwd-icons-new.png) -104px -75px no-repeat;
+    background: url(images/login/pwd-icons-new.png) -104px -75px no-repeat;
     vertical-align: middle;
     margin-right: 5px;
 }
