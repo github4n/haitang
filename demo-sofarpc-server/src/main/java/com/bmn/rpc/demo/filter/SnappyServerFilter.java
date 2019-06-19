@@ -72,23 +72,26 @@ public class SnappyServerFilter extends Filter {
             return response;
         }
 
-        try {
-            // 获取响应结果
-            HelloResponseMsg msg = (HelloResponseMsg) resp;
-            // 获取战斗原始字符串
-            String originData = msg.getResult();
-            // 压缩
-            byte[] ddata = compressor.compress(originData.getBytes("utf-8"));
-            // 重新生成压缩后的响应结果
-            HelloResponseMsg responseMsg = msg.toBuilder().clearResult()
-                .setCompressResult(ByteString.copyFrom(ddata)).build();
+        // 如果业务逻辑抛出异常，则resp为异常对象
+        if (resp instanceof HelloResponseMsg) {
+            try {
+                // 获取响应结果
+                HelloResponseMsg msg = (HelloResponseMsg) resp;
+                // 获取战斗原始字符串
+                String originData = msg.getResult();
+                // 压缩
+                byte[] ddata = compressor.compress(originData.getBytes("utf-8"));
+                // 重新生成压缩后的响应结果
+                HelloResponseMsg responseMsg = msg.toBuilder().clearResult()
+                    .setCompressResult(ByteString.copyFrom(ddata)).build();
 
-            response.setAppResponse(responseMsg);
-        } catch (Exception e) {
-            logger.error("call snappy response error", e);
-            throw new SofaRpcException(RpcErrorType.SERVER_FILTER,
-                "call snappy filter response error",
-                e);
+                response.setAppResponse(responseMsg);
+            } catch (Exception e) {
+                logger.error("call snappy response error", e);
+                throw new SofaRpcException(RpcErrorType.SERVER_FILTER,
+                    "call snappy filter response error",
+                    e);
+            }
         }
 
         return response;

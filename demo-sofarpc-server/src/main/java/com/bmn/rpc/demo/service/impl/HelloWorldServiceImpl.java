@@ -35,6 +35,8 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     @Override
     public HelloResponseMsg helloCallback(HelloRequestMsg msg) {
         logger.debug("receive hello callback request");
+
+//        throw new IllegalArgumentException("server args erro");
         return HelloResponseMsg.newBuilder().setResult("world_callback").build();
     }
 }
