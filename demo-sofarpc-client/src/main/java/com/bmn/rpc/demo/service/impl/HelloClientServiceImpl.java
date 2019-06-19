@@ -12,7 +12,10 @@ import com.bmn.rpc.demo.component.DemoRpcClient;
 import com.bmn.rpc.demo.service.HelloClientService;
 import com.bmn.rpc.demo.util.TracerUtils;
 import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +55,8 @@ public class HelloClientServiceImpl implements HelloClientService {
 
             long end = Instant.now().toEpochMilli();
 
-            logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+            logger
+                .info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
 
         } catch (Exception e) {
             logger.error("hello error", e);
@@ -97,13 +101,55 @@ public class HelloClientServiceImpl implements HelloClientService {
     }
 
     @Override
-    public String callHelloCallback(DeferredResult<String> deferred)  {
+    public String callHelloCallback(DeferredResult<String> deferred) {
+
+        callHelloCallback(deferred, Executors.newSingleThreadExecutor());
+
+        return "true";
+    }
+
+    /**
+     *
+     * 1. executor：如果为null, 表示在当前deferred触发线程中执行callback
+     * <p>
+     * 如果指定executor，则callback在executor线程触发
+     *
+     */
+    public void callHelloCallback(DeferredResult<String> deferred, Executor executor) {
+
+        CompletableFuture<String> future = new CompletableFuture<>();
+
+        // rpc异常后，执行本地战斗后，再执行callback。rpc正常返回后直接执行callback
+        future.exceptionally(ex -> {
+
+            logger.info("rpc call error, on exception", ex);
+
+            return "exception result";
+        }).thenAcceptAsync(r -> {
+
+            logger.info("rpc call finish, on then accept async: {}", r);
+
+            deferred.setResult(r);
+        }, executor == null ? DirectExecutor.INSTANCE : executor);
+
+        callHelloCallback(future);
+    }
+
+
+    public void callHelloCallback(CompletableFuture<String> future) {
         long begin = Instant.now().toEpochMilli();
 
         try {
 
+            // 回调接口由：SOFA-RPC-CB线程执行
             RpcInvokeContext.getContext().setResponseCallback(new SofaResponseCallback() {
 
+                /**
+                 * 当客户端接收到服务端的正常返回的时候，SOFARPC 会回调这个方法。
+                 * @param appResponse
+                 * @param methodName
+                 * @param request
+                 */
                 @Override
                 public void onAppResponse(Object appResponse, String methodName,
                     RequestBase request) {
@@ -113,22 +159,40 @@ public class HelloClientServiceImpl implements HelloClientService {
                     String result = msg.getResult();
 
                     long end = Instant.now().toEpochMilli();
-                    logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin), result);
+                    logger.info("rpc call finish, client_elapse_time: {}, result:{}", (end - begin),
+                        result);
 
-                    deferred.setResult(result);
+                    future.complete(result);
                 }
 
+                /**
+                 * 当客户端接收到服务端的异常响应的时候，SOFARPC 会回调这个方法
+                 * @param throwable
+                 * @param methodName
+                 * @param request
+                 */
                 @Override
                 public void onAppException(Throwable throwable, String methodName,
                     RequestBase request) {
 
-                    deferred.setErrorResult("remote false");
+                    logger.error("server error ", throwable);
+
+                    future.completeExceptionally(throwable);
                 }
 
+                /**
+                 * 当 SOFARPC 本身出现一些错误，比如路由错误的时候，SOFARPC 会回调这个方法。
+                 * @param sofaException
+                 * @param methodName
+                 * @param request
+                 */
                 @Override
                 public void onSofaException(SofaRpcException sofaException, String methodName,
                     RequestBase request) {
-                    deferred.setErrorResult("local false");
+
+                    logger.error("self error ", sofaException);
+
+                    future.completeExceptionally(sofaException);
                 }
             });
 
@@ -140,13 +204,24 @@ public class HelloClientServiceImpl implements HelloClientService {
             TracerUtils.asyncCallErrorClearTracer(e);
             logger.error("hello callback error", e);
 
-            return "false";
+            future.completeExceptionally(e);
         }
 
         logger.info("rpc call start...");
-
-        return "true";
     }
 
 
+    private enum DirectExecutor implements Executor {
+        INSTANCE;
+
+        @Override
+        public void execute(Runnable command) {
+            command.run();
+        }
+
+        @Override
+        public String toString() {
+            return "MoreExecutors.directExecutor()";
+        }
+    }
 }

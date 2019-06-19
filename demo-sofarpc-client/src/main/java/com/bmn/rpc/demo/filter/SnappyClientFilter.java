@@ -111,7 +111,12 @@ public class SnappyClientFilter extends Filter {
 
             logger.debug("rpc call response compress: true");
 
+            // 服务端返回异常时，resp为null
             Object resp = response.getAppResponse();
+            if(resp == null) {
+                return;
+            }
+
             Compressor compressor = CompressorFactory.getCompressor(SNAPPY_NAME);
             try {
                 // 获取响应结果
