@@ -172,7 +172,7 @@ var Util = {
             frameLoginSubmit(callback);
             return;
         }
-        var loginUrl = "loginService";
+        var loginUrl = "v1/api/login/loginService";
         var uuid = $("#uuid").val();
         var chkRememberMe = "";
         if ($('#autoLogin').attr('checked')) {
@@ -192,10 +192,10 @@ var Util = {
                 //fp:$('#sessionId').val(),
                 //_t:$('#token').val(),
                 loginType:$('#loginType').val(),
-                loginname:$('#loginname').val(),
-                nloginpwd:getEntryptPwd($('#nloginpwd').val()),
+                loginName:$('#loginname').val(),
+                loginPwd:getEntryptPwd($('#nloginpwd').val()),
                 //chkRememberMe:chkRememberMe,
-                authcode:$('#authcode').val()
+                authCode:$('#authcode').val()
                 //pubKey:$('#pubKey').val(),
                // sa_token:$('#sa_token').val(),
                // seqSid:window._jdtdmap_sessionId
@@ -251,7 +251,7 @@ var Util = {
                     }
                     if (obj.username) {
                         initCountryCode(obj);
-                        callback(obj.username,"error",["#loginname"]);
+                        callback("账户名与密码不匹配，请重新输入","error",["#loginname"]);
                     }
                     if (obj.pwd) {
                         initCountryCode(obj);

@@ -12,3 +12,6 @@ leting:
     tokenPath: auth
     searchPath: query
     playPath: play/url
+
+admin: 123123
+

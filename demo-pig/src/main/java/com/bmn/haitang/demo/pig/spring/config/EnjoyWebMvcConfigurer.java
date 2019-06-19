@@ -21,7 +21,7 @@ public class EnjoyWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/v1/api/login/123");
+        registry.addViewController("/").setViewName("forward:/v1/api/login/index");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 }
