@@ -8,6 +8,7 @@ import com.alipay.sofa.rpc.config.MethodConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
 import com.bmn.rpc.demo.filter.GrayLevelClientFilter;
 import com.bmn.rpc.demo.filter.SnappyClientFilter;
+import com.bmn.rpc.demo.router.GrayscaleRouter;
 import com.bmn.rpc.demo.service.HelloWorldService;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public class DemoRpcClient implements InitializingBean {
             .setInterfaceId(HelloWorldService.class.getName())
             .setRegistry(registryConfig)
             .setMethods(Arrays.asList(methodConfig, helloMethodConfig))
+            .setRouterRef(Arrays.asList(new GrayscaleRouter()))
             .setApplication(applicationConfig)
             .setProtocol(RpcConstants.PROTOCOL_TYPE_BOLT)
             .setInvokeType(RpcConstants.INVOKER_TYPE_FUTURE)
