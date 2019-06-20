@@ -22,6 +22,10 @@ public enum OnlineAdminManager {
         adminMap.put(sessionId, admin);
     }
 
+    public void offline(String sessionId) {
+        adminMap.remove(sessionId);
+    }
+
     public Admin getOnlineAdmin(String sessionId) {
         return adminMap.get(sessionId);
     }

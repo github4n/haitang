@@ -1,4 +1,4 @@
-package com.bmn.haitang.demo.pig.vo;
+package com.bmn.haitang.demo.pig.vo.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,10 +9,10 @@ import java.util.Map;
  * jquery esayui tree attributes
  * Created by Administrator on 2017/7/31.
  */
-public class UIBranch implements Component{
+public class UIBranch implements UIComponent{
     private int id;
     private String text;	//显示节点文本
-    private List<Component> children;	//一个节点数组声明了若干节点
+    private List<UIComponent> children;	//一个节点数组声明了若干节点
     private String state;	//'open' 或 'closed'
     private boolean checked;	//表示该节点是否被选中
     private Map<String, Object> attributes;	//被添加到节点的自定义属性
@@ -42,13 +42,13 @@ public class UIBranch implements Component{
     }
 
     @Override
-    public List<Component> getChildren() {
+    public List<UIComponent> getChildren() {
         return children;
     }
 
 
     @Override
-    public void setChildren(List<Component> children) {
+    public void setChildren(List<UIComponent> children) {
         this.children = children;
     }
 
@@ -93,10 +93,10 @@ public class UIBranch implements Component{
     }
 
     @Override
-    public Component clone() throws CloneNotSupportedException {
-        Component clone = (Component)super.clone();
-        List<Component> result = new ArrayList<>(children.size());
-        for (Component child : children) {
+    public UIComponent clone() throws CloneNotSupportedException {
+        UIComponent clone = (UIComponent)super.clone();
+        List<UIComponent> result = new ArrayList<>(children.size());
+        for (UIComponent child : children) {
             result.add(child.clone());
         }
         clone.setChildren(result);
@@ -104,7 +104,7 @@ public class UIBranch implements Component{
     }
 
     @Override
-    public void filter(ComponentFilter filter) {
+    public void filter(UIComponentFilter filter) {
         filter.doFilter(children);
     }
 }

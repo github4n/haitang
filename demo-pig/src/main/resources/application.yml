@@ -1,7 +1,7 @@
 server:
   port: 9595
-  servlet:
-    context-path: /pig
+  #servlet:
+  #  context-path: /pig
 
 
 leting:
@@ -15,3 +15,6 @@ leting:
 
 admin: 123123
 
+explorer:
+  file:
+    path: explorer.xml

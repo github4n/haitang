@@ -1,4 +1,4 @@
-package com.bmn.haitang.demo.pig.vo;
+package com.bmn.haitang.demo.pig.vo.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * jquery easyui accordion attributes
  * Created by Administrator on 2017/7/31.
  */
-public class UIAccordion implements Comparable<UIAccordion>, Component{
+public class UIAccordion implements Comparable<UIAccordion>, UIComponent{
     private int id;
     private String title;
     private boolean selected;
@@ -17,7 +17,7 @@ public class UIAccordion implements Comparable<UIAccordion>, Component{
     private String type;
     private String contentType;     //tree: 树
     private String contentId;
-    private List<Component> children;
+    private List<UIComponent> children;
 
     public UIAccordion(int id) {
         this.id = id;
@@ -94,20 +94,20 @@ public class UIAccordion implements Comparable<UIAccordion>, Component{
     }
 
     @Override
-    public List<Component> getChildren() {
+    public List<UIComponent> getChildren() {
         return children;
     }
 
    @Override
-    public void setChildren(List<Component> children) {
+    public void setChildren(List<UIComponent> children) {
         this.children = children;
     }
 
     @Override
-    public Component clone() throws CloneNotSupportedException {
-        Component clone = (Component)super.clone();
-        List<Component> result = new ArrayList<>(children.size());
-        for(Component component : children) {
+    public UIComponent clone() throws CloneNotSupportedException {
+        UIComponent clone = (UIComponent)super.clone();
+        List<UIComponent> result = new ArrayList<>(children.size());
+        for(UIComponent component : children) {
             result.add(component.clone());
         }
         clone.setChildren(result);
@@ -115,7 +115,7 @@ public class UIAccordion implements Comparable<UIAccordion>, Component{
     }
 
     @Override
-    public void filter(ComponentFilter filter) {
+    public void filter(UIComponentFilter filter) {
 
     }
 }

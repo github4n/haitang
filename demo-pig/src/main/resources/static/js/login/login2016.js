@@ -172,7 +172,7 @@ var Util = {
             frameLoginSubmit(callback);
             return;
         }
-        var loginUrl = "v1/api/login/loginService";
+        var loginUrl = "loginService";
         var uuid = $("#uuid").val();
         var chkRememberMe = "";
         if ($('#autoLogin').attr('checked')) {
