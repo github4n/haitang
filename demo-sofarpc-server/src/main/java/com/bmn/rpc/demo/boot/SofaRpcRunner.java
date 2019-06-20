@@ -63,7 +63,9 @@ public class SofaRpcRunner implements ApplicationRunner {
             .setInterfaceId(HelloWorldService.class.getName()) // 指定接口
             .setRef(new HelloWorldServiceImpl()) // 指定实现
             .setRegistry(registryConfig)
+            .setParameter("grayscale", "0")
             .setServer(serverConfig); // 指定服务端
+
 
         providerConfig.setFilterRef(Arrays.asList(new SnappyServerFilter()));
 
