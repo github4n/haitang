@@ -8,6 +8,7 @@ import com.alipay.sofa.rpc.core.request.RequestBase;
 import com.alipay.sofa.rpc.message.bolt.BoltResponseFuture;
 import com.bmn.haitang.demo.serialize.pb.msg.Rpc.HelloRequestMsg;
 import com.bmn.haitang.demo.serialize.pb.msg.Rpc.HelloResponseMsg;
+import com.bmn.rpc.demo.callback.SofaTracerResponseCallback;
 import com.bmn.rpc.demo.component.DemoRpcClient;
 import com.bmn.rpc.demo.service.HelloClientService;
 import com.bmn.rpc.demo.util.TracerUtils;
@@ -15,7 +16,6 @@ import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,20 +100,30 @@ public class HelloClientServiceImpl implements HelloClientService {
         return "true";
     }
 
+    /**
+     * 2. rpc调用失败后
+     * <p>
+     * 如果是调用时失败，则当前线程执行本地操作，executor线程执行callback
+     * <p>
+     * 如果是rpc执行过程中失败，则rpc回调线程执行本地操作，executor线程执行callback
+     *
+     * 3. rpc成功, executor线程执行callback
+     */
     @Override
     public String callHelloCallback(DeferredResult<String> deferred) {
+        // 指定线程池
+//      callHelloCallback(deferred, Executors.newSingleThreadExecutor());
 
-        callHelloCallback(deferred, Executors.newSingleThreadExecutor());
+        // 未指定线程池
+        callHelloCallback(deferred, null);
 
         return "true";
     }
 
     /**
-     *
      * 1. executor：如果为null, 表示在当前deferred触发线程中执行callback
      * <p>
      * 如果指定executor，则callback在executor线程触发
-     *
      */
     public void callHelloCallback(DeferredResult<String> deferred, Executor executor) {
 
@@ -142,7 +152,7 @@ public class HelloClientServiceImpl implements HelloClientService {
         try {
 
             // 回调接口由：SOFA-RPC-CB线程执行
-            RpcInvokeContext.getContext().setResponseCallback(new SofaResponseCallback() {
+            RpcInvokeContext.getContext().setResponseCallback(new SofaTracerResponseCallback(new SofaResponseCallback() {
 
                 /**
                  * 当客户端接收到服务端的正常返回的时候，SOFARPC 会回调这个方法。
@@ -194,7 +204,7 @@ public class HelloClientServiceImpl implements HelloClientService {
 
                     future.completeExceptionally(sofaException);
                 }
-            });
+            }));
 
             HelloRequestMsg.Builder builder = HelloRequestMsg.newBuilder();
             builder.setType(TYPE);
