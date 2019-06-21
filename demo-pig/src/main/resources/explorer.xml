@@ -28,7 +28,7 @@
 					<children> <!--第二层id 000-999-->
 						<branch id="100000" text="MVC" url="" >
 							<children>
-								<branch id="10000000" text="DispatchServlet" url="spring/mvc/servlet/show" type="url" />
+								<branch id="10000000" text="DispatchServlet" url="/spring/mvc/servlet/show" type="url" />
 							</children>
 						</branch>
 						<branch id="100101" text="分区管理" url="areaPage" >
