@@ -20,9 +20,17 @@
 <script type="text/javascript">
 $(function(){
 	var columnHref = [
-		{field:'name',title:'角色名', ftype:"text"},
-		//{field:'oprPermit',title:'permits', ftype:"text", hidden:true},
-		{field:'bindCount',title:'状态', ftype:"text", formatter:formatState},             
+		{field:'name',title:'用户名', ftype:"text"},
+		// {field:'oprPermit',title:'permits', ftype:"text", hidden:true},
+		{field:'bindCount',title:'总资产', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'微分', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'手机号', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'登录状态', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'售卖信息', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'购买状态', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'抢购状态', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'申诉', ftype:"text", formatter:formatState},
+		{field:'bindCount',title:'确定出售', ftype:"text", formatter:formatState},
 		{field:'operate',title:'操作', ftype:"opr", formatter:formatOperate}
 	 ];
 	

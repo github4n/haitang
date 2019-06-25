@@ -25,13 +25,9 @@ public class AuthorityServiceImpl implements AuthorityService {
         List<UIAccordion> list = explorerService.getAccordions();
 
         List<Integer> authorities = new ArrayList<>();
-        authorities.add(100102);
-        authorities.add(10000000);
-        authorities.add(30010100);
-        authorities.add(200);
-        authorities.add(300100);
-        authorities.add(300101);
-        authorities.add(300102);
+        authorities.add(100000);
+        authorities.add(101100);
+        authorities.add(101101);
 
         return findBranch(authorities, list, new UIComponent.UIComponentFilter() {
             @Override

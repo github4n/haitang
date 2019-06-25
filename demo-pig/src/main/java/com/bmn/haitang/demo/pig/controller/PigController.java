@@ -15,19 +15,19 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by Administrator on 2017/6/26.
  */
 @Controller
-@RequestMapping(value = "/breeder")
-public class BreederController {
-    private static final Logger logger = LoggerFactory.getLogger(BreederController.class);
+@RequestMapping(value = "/nour/pig")
+public class PigController {
+    private static final Logger logger = LoggerFactory.getLogger(PigController.class);
 
     @Autowired
     private HelloService helloService;
 
     /**
-     * 猪窝
+     * 猪猪集市
      * @return
      */
-    @GetMapping("/pigsty")
-    public ModelAndView pigsty() {
+    @GetMapping("/market")
+    public ModelAndView market() {
         ModelAndView mv = new ModelAndView();
 
         Admin admin = OnlineAdminManager.INSTANCE.getOnlineAdmin("123");
@@ -40,9 +40,8 @@ public class BreederController {
 
         mv.addObject("admin", admin);
 
-        mv.setViewName("page/breeder/pigsty");
+        mv.setViewName("page/pig/market");
         return mv;
     }
-
 
 }
