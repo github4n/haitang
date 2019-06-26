@@ -1,6 +1,6 @@
 package com.bmn.haitang.demo.pig.controller;
 
-import com.bmn.haitang.demo.pig.service.PigService;
+import com.bmn.haitang.demo.pig.service.BreederService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +15,28 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by Administrator on 2017/6/26.
  */
 @Controller
-@RequestMapping(value = "/nour/pig")
-public class PigController {
-    private static final Logger logger = LoggerFactory.getLogger(PigController.class);
+@RequestMapping(value = "/breeder/adopt")
+public class BreederAdoptController {
+    private static final Logger logger = LoggerFactory.getLogger(BreederAdoptController.class);
 
     @Autowired
-    private PigService pigService;
+    private BreederService breederService;
 
     /**
-     * 猪猪集市
+     * 猪窝
      * @return
      */
     @GetMapping("/page")
     public ModelAndView page() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("page/pig/market");
+        mv.setViewName("page/breeder/adopt");
         return mv;
     }
+
 
     @PostMapping("/grid")
     @ResponseBody
     public String grid() {
-        String grid = pigService.grid();
-
-        return grid;
+        return breederService.grid();
     }
-
-
 }

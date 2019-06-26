@@ -22,15 +22,14 @@ $(function(){
 	var columnHref = [
 		{field:'id',title:'编号'},
 		{field:'name',title:'用户名', ftype:"text"},
-		{field:'icon',title:'头像', ftype:"text", formatter:formatIcon},
-		{field:'level',title:'级别', ftype:"text"  },
 		{field:'score',title:'微分', ftype:"text" },
-		{field:'nour',title:'比特猪', ftype:"text" },
-		{field:'dogCoin',title:'狗狗币', ftype:"text" },
-		{field:'promotionBenefit',title:'推广收益', ftype:"text" },
-		{field:'contractGain',title:'合约收益', ftype:"text" },
 		{field:'totalGain',title:'总资产', ftype:"text" },
 		{field:'onlineState',title:'登录状态', ftype:"text" },
+		{field:'waitBuy',title:'待领养', ftype:"text" },
+		{field:'running',title:'收益中', ftype:"text" },
+		{field:'waitSell',title:'待转让', ftype:"text" },
+		{field:'finish',title:'已完成', ftype:"text" },
+		{field:'appeal',title:'申诉', ftype:"text" },
 		{field:'operate',title:'操作', ftype:"opr", formatter:formatOperate}
 	 ];
 	
@@ -296,26 +295,6 @@ function onClickAddRole() {
 </head>
 <body>
 	<table id="dataGrid" class="easyui-datagrid" style="width: 700px; height: 250px" > </table>
-	<div id="dataGrid_tb" style="padding: 5px; height: auto">
-		<div style="margin-top: 5px">
-			<table cellspacing="0" cellpadding="0">
-				<tr>
-					<!--  <td>
-						<a href="#" class="easyui-linkbutton" iconCls="icon-edit" data-options="plain:true,onClick:onClickDefaultPremit" >设置默认权限</a>
-					</td>
-					<td style="width:10px;">
-						<div class="datagrid-btn-separator"></div>
-					</td>-->
-					<td style="padding-left:21px;">
-						<input id="dataGrid_addRole" class="easyui-textbox" data-options="prompt:'请输入角色名'" style="width: 150px;float:right">
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" data-options="plain:true,onClick:onClickAddRole">添加</a>
-					</td>
-	
-				</tr>
-			</table>
-		</div>
-	</div>
-	
 	<!-- addDialog -->
 	<div id="bindPermitDialog" style="padding:10px;">
 		<input id="bindPermitDialog_tree" />  

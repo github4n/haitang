@@ -26,12 +26,13 @@
 			<children> <!--第一层id 00-99-->
 				<branch id="100" text="比特猪" url="">
 					<children> <!--第二层id 000-999-->
-						<branch id="100000" text="猪猪集市" url="/nour/pig/market" type="url"/>
+						<branch id="100000" text="猪猪集市" url="/nour/pig/page" type="url"/>
 					</children>
 				</branch>
 				<branch id="101" text="我的猪窝" url="" >
 					<children>
-						<branch id="101100" text="账号" url="/breeder/pigsty" type="url"/>
+						<branch id="101100" text="账号" url="/breeder/pigsty/page" type="url"/>
+						<branch id="101101" text="领养记录" url="/breeder/adopt/page" type="url"/>
 					</children>
 				</branch>
 			</children>
